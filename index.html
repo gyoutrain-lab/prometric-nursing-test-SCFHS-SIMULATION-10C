@@ -2175,104 +2175,55 @@ button {
 </ul>
 </div>
 </div>
+<!-- ========================= -->
+<!-- END QUESTION TEMPLATE -->
+<!-- ========================= -->
 
-<!-- ================= SCFHS POST-EXAM REPORT ENGINE ================= -->
-<button onclick="generateSCFHSReport()">Submit Full Exam</button>
-<section id="scfhs-report" style="display:none; padding:20px; margin-top:30px; border:2px solid #222; background:#f9fafb; font-family:Arial">
+<button type="button" onclick="submitExam()">Submit Full Exam</button>
 
-  <h2>📊 SCFHS DISTRACTOR ANALYSIS REPORT</h2>
+</form>
 
-  <div id="summary"></div>
+<div id="result"></div>
 
-  <h3>🧠 Distractor Breakdown</h3>
-  <table border="1" cellpadding="8" cellspacing="0" width="100%">
-    <thead>
-      <tr style="background:#e5e7eb">
-        <th>Distractor Type</th>
-        <th>Count</th>
-        <th>SCFHS Meaning</th>
-      </tr>
-    </thead>
-    <tbody id="distractor-table"></tbody>
-  </table>
-
-  <h3 style="margin-top:20px">🚦 SCFHS FINAL DECISION</h3>
-  <div id="decision" style="font-size:18px; font-weight:bold;"></div>
-
-</section>
+</div>
 
 <script>
-function generateSCFHSReport() {
+function submitExam() {
 
   const questions = document.querySelectorAll(".question");
+  let score = 0;
   let total = questions.length;
-  let correct = 0;
-
-  let distractors = {
-    NCLEX: 0,
-    STR: 0,
-    DELAY: 0,
-    UNSAFE: 0
-  };
 
   questions.forEach(q => {
-    const selected = q.querySelector("input[type=radio]:checked");
-    if (!selected) return;
+    const qName = q.getAttribute("data-q");
+    const selected = q.querySelector(`input[name="${qName}"]:checked`);
+    const rationale = q.querySelector(".rationale");
+    const correct = rationale.getAttribute("data-correct");
 
-    if (selected.dataset.correct === "true") {
-      correct++;
-    } else {
-      const tag = selected.dataset.tag;
-      if (distractors[tag] !== undefined) {
-        distractors[tag]++;
+    // Always show rationale
+    rationale.style.display = "block";
+
+    if (selected) {
+      if (selected.value === correct) {
+        score++;
+        selected.parentElement.classList.add("correct");
+      } else {
+        selected.parentElement.classList.add("incorrect");
       }
     }
   });
 
-  let scorePercent = Math.round((correct / total) * 100);
+  const percent = (score / total) * 100;
 
-  let decision = "NOT GO";
-  let decisionColor = "red";
-
-  if (scorePercent >= 70 && distractors.UNSAFE <= 2) {
-    decision = "GO";
-    decisionColor = "green";
-  }
-
-  document.getElementById("summary").innerHTML = `
-    <p><strong>Total Questions:</strong> ${total}</p>
-    <p><strong>Correct Answers:</strong> ${correct}</p>
-    <p><strong>Score:</strong> ${scorePercent}%</p>
+  document.getElementById("result").innerHTML = `
+    <h2>Exam Result</h2>
+    <p>Total Questions: ${total}</p>
+    <p>Correct Answers: ${score}</p>
+    <p>Score: ${percent.toFixed(1)}%</p>
+    <p><strong>SCFHS Prediction:</strong> ${percent >= 70 ? "GO" : "NOT GO"}</p>
   `;
-
-  const meanings = {
-    NCLEX: "Knowledge present, priority selection error",
-    STR: "Saudi exam logic mismatch",
-    DELAY: "Correct action but wrong timing",
-    UNSAFE: "Patient safety violation"
-  };
-
-  let rows = "";
-  for (let key in distractors) {
-    rows += `
-      <tr>
-        <td>${key}</td>
-        <td>${distractors[key]}</td>
-        <td>${meanings[key]}</td>
-      </tr>
-    `;
-  }
-
-  document.getElementById("distractor-table").innerHTML = rows;
-
-  document.getElementById("decision").innerHTML =
-    `<span style="color:${decisionColor}">${decision}</span>`;
-
-  document.getElementById("scfhs-report").style.display = "block";
 }
 </script>
-
-<!-- ================= END SCFHS REPORT ENGINE ================= -->
 
 </body>
 </html>
