@@ -5,15 +5,64 @@
 <title>SCFHS Prometric Mock Exam</title>
 
 <style>
-body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; }
-.container { max-width:1200px; margin:auto; background:#fff; padding:20px; }
-h1,h2 { text-align:center; }
-.question { border:1px solid #ddd; padding:15px; margin-bottom:20px; }
-.options label { display:block; margin:6px 0; cursor:pointer; }
-.rationale { display:none; background:#eef5ff; padding:10px; margin-top:10px; border-left:4px solid #007bff; }
-.correct { color:green; font-weight:bold; }
-.incorrect { color:red; font-weight:bold; }
-button { padding:12px 25px; font-size:16px; }
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px;
+}
+h1, h2 {
+  text-align: center;
+}
+.info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.info input {
+  padding: 8px;
+  width: 100%;
+}
+.question {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.options label {
+  display: block;
+  margin: 6px 0;
+  cursor: pointer;
+}
+.rationale {
+  display: none;
+  background: #eef5ff;
+  padding: 10px;
+  margin-top: 10px;
+  border-left: 4px solid #007bff;
+}
+.correct {
+  color: green;
+  font-weight: bold;
+}
+.incorrect {
+  color: red;
+  font-weight: bold;
+}
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+}
+#result {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f1f1f1;
+}
 </style>
 </head>
 
@@ -21,9 +70,19 @@ button { padding:12px 25px; font-size:16px; }
 <div class="container">
 
 <h1>SCFHS Prometric Mock Exam</h1>
-<h2>PART 2 – Questions 1 to 100</h2>
+<h2>Full-Length Exam</h2>
+
+<div class="info">
+  <input type="text" placeholder="Candidate Name">
+  <input type="text" placeholder="Candidate ID">
+</div>
 
 <form id="examForm">
+
+<!-- ========================= -->
+<!-- QUESTION TEMPLATE START -->
+<!-- COPY THIS BLOCK FOR Q1–Q110 -->
+<!-- ========================= -->
 
 <!-- Q1 -->
 <div class="question" data-q="q1">
